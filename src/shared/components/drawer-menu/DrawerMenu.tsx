@@ -11,8 +11,10 @@ import {
   useMediaQuery, 
   useTheme 
 } from '@mui/material';
+import { useState } from 'react';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
-import { useDrawerContext } from '../../contexts';
+import { useAppThemeContext, useDrawerContext } from '../../contexts';
+import AvatarImage from '../../../assets/images/avatar.png';
 
 interface IDrawerMenuProps {
     children: React.ReactNode;
@@ -48,8 +50,15 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }
 export const DrawerMenu: React.FC<IDrawerMenuProps> = ({ children }) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
+  const { toggleTheme } = useAppThemeContext();
+
+  const handleChangeTheme = () => {
+    toggleTheme();
+    setDarkMode(!darkMode);
+  };
 
   return (
     <>
@@ -72,7 +81,7 @@ export const DrawerMenu: React.FC<IDrawerMenuProps> = ({ children }) => {
           >
             <Avatar
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }} 
-              src="" 
+              src={AvatarImage} 
             />
           </Box>
 
@@ -91,8 +100,24 @@ export const DrawerMenu: React.FC<IDrawerMenuProps> = ({ children }) => {
               ))}
             </List>
           </Box>
+          
+          <Box>
+            <List component="nav">
+              <ListItemButton onClick={handleChangeTheme}>
+                <ListItemIcon>
+                  {darkMode ? (
+                    <Icon>light_mode</Icon>
+                  ) : (
+                    <Icon>nightlight</Icon>
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={darkMode ? 'Light mode' : 'Dark mode'} />
+              </ListItemButton>
+            </List>
+          </Box>
         </Box>
       </Drawer>
+
       <Box height="100vh" marginLeft={smDown ? 0 : theme.spacing(28)}>
         { children } 
       </Box>
