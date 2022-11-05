@@ -14,7 +14,7 @@ import {
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { useDrawerContext } from '../../contexts';
 
-interface IMenuLateralProps {
+interface IDrawerMenuProps {
     children: React.ReactNode;
 }
 
@@ -45,7 +45,7 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }
   );
 };
 
-export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
+export const DrawerMenu: React.FC<IDrawerMenuProps> = ({ children }) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
